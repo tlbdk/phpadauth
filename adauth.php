@@ -7,6 +7,11 @@ $prog = $argv[0];
 $user = trim(fgets(STDIN));
 $pass = trim(fgets(STDIN));
 
+# Check if the string is lowercase and does not have any domain information
+#if(strtolower($user) != $user || !preg_match("/^[^\\\\@]+$/", $user)) {
+#        exit(1);
+#}
+
 // Handle domain\user and user@domain syntax append domain name
 if(preg_match("/^(.+?)([\\\\@])(.+?)$/", $user, $matches)) {
         if($matches[2] == '\\') {
@@ -43,3 +48,4 @@ foreach($adservers as $server) {
         }
 }
 exit(1);
+
