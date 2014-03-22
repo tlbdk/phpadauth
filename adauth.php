@@ -7,6 +7,10 @@ $prog = $argv[0];
 $user = trim(fgets(STDIN));
 $pass = trim(fgets(STDIN));
 
+if($user === '' || $pass === '') {
+    exit(1);
+}
+
 # Check if the string is lowercase and does not have any domain information
 #if(strtolower($user) != $user || !preg_match("/^[^\\\\@]+$/", $user)) {
 #        exit(1);
