@@ -39,13 +39,18 @@ foreach($adservers as $server) {
                 if ($bind) {
                         exit(0);
                 } else {
-                        fwrite(STDERR, $prog . "Login failed\n");
-                        # TODO: Handle password expired etc.
-                        if (ldap_get_option($handle,  0x0032, $extended_error)) {
+                        if (ldap_get_option($handle,  0x0031, $extended_error)) { // LDAP_OPT_RESULT_CODE
+                                if ($extended_error === -1) {
+                                        #echo "Connection error to LDAP server";
+                                        continue;
+                                }
+                        } else if (ldap_get_option($handle,  0x0032, $extended_error)) { // LDAP_OPT_DIAGNOSTIC_MESSAGE
+                                # TODO: Handle password expired etc.
                                 #echo "Error Binding to LDAP: $extended_error";
                         } else {
                                 #echo "Error Binding to LDAP: No additional information is available.";
                         }
+                        fwrite(STDERR, $prog . "Login failed\n");
                         exit(1);
                 }
                 break;
